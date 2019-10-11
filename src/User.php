@@ -9,11 +9,17 @@ class User extends Main{
     public function verifyUser(){
         try {
             $username = $_POST['username'];
-            $userpass = $_POST['pass'];
+            $userpass = md5($_POST['pass']);
             $sql = "SELECT * FROM user WHERE username = '$username' AND pass = '$userpass' ";
             $res = $this->conn->query($sql);
             if( $res->num_rows > 0){
-                return true;
+                $data_ = $res->fetch_assoc();
+                $_r = [
+                    $data_['id_user'],
+                    true
+                ];
+                //return true;
+                return $_r;
             }else{
                 return false;
             }

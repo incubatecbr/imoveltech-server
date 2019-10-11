@@ -7,7 +7,7 @@ class Immobile extends Main{
      */
     public function list(){
         try {
-            $sql = "SELECT * FROM immobile LIMIT 10";
+            $sql = "SELECT * FROM immobile";
             $res = $this->conn->query($sql);
             if($res->num_rows > 0 ){
                 $all = $res->fetch_all(MYSQLI_ASSOC);
@@ -25,21 +25,14 @@ class Immobile extends Main{
         try {
             $data = $_POST['data'];
             $price = $this->priceSaleByWake($data['sizeHome'], $data['bedrooms'], $data['suites'], $data['wc'], $data['sizeRecreation'], $data['pool'], $data['garagem']);
-            
-            $img = $data['base64Img'];
-            
-            
-
-
-            $sql = "INSERT INTO immobile(title_ad, size_m2_home, bedrooms, suites, wc, pool_home, garage, size_m2_recreation, sale_price, id_user, address_home, img_base64 ) VALUES ('{$data['titleAd']}', {$data['sizeHome']}, {$data['bedrooms']}, {$data['suites']}, {$data['wc']},{$data['pool']}, {$data['garagem']}, {$data['sizeRecreation']},$price,1,'sem enderecooo','{$data['base64Img']}')";
-            //
-
+            $sql = "INSERT INTO immobile(title_ad, size_m2_home, bedrooms, suites, wc, pool_home, garage, size_m2_recreation, sale_price, id_user, address_home, img_base64 ) VALUES ('{$data['titleAd']}', {$data['sizeHome']}, {$data['bedrooms']}, {$data['suites']}, {$data['wc']},{$data['pool']}, {$data['garagem']}, {$data['sizeRecreation']},$price,1,'{$data['address_h']}','{$data['base64Img']}')";
             $res = $this->conn->query($sql);
-            if( $res->num_rows > 0){
-                return true;
+            if( $res == true){
+                return $res;
             }else{
                 return $this->conn->error;
             } 
+
         } catch (\Throwable $th) {
              return $e->getMessage();
         } 
