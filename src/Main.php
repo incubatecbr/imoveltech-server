@@ -3,6 +3,11 @@
  * Class abstract for loop in $_POST, find action and return method.
  */
 abstract class Main {
+    public function __construct() {
+        $db = new Database();
+        $this->conn = $db->_connect();
+    }
+    
     public function init() {
         foreach ($_POST as $key => $val) {
             $this->$key = $val;

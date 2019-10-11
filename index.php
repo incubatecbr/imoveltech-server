@@ -1,7 +1,8 @@
 <?php
+
     header("Access-Control-Allow-Origin: *");
-    // $APP_PATH['root'] = $_SERVER['DOCUMENT_ROOT'] . '/imoveltech/';
-    // $APP_PATH['src'] = $APP_PATH['root'] . 'src/';
+    $APP_PATH['root'] = $_SERVER['DOCUMENT_ROOT'] . '/imoveltech/';
+    $APP_PATH['src'] = $APP_PATH['root'] . 'src/';
 
     require_once('autoloader.php');
     $rest_json = file_get_contents("php://input");
