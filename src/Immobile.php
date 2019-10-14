@@ -1,6 +1,7 @@
 <?php
-class Immobile extends Main{
+use User;
 
+class Immobile extends Main{
 
     /**
      * Function list all immobile
@@ -21,15 +22,20 @@ class Immobile extends Main{
     public function immobilesUser(){
         try {
             $id_ = $_POST['id'];
+            $user = new User();
             $sql = "SELECT id_, title_ad from immobile WHERE id_user = $id_";
             $res = $this->conn->query($sql);
+            $username = $user->getName();
             if($res->num_rows > 0){
-                $all = $res->fetch_all(MYSQLI_ASSOC);
+                $all = [
+                    'username' => $username['username'],
+                    $res->fetch_all(MYSQLI_ASSOC),
+                ];
                 return $all;
             }else{
                 $msg = [
-                    "status" => "success",
-                    "msg" => "Usuário não possui nenhum imovel cadastrado",
+                    'msg' => 'Usuário não possui nenhum imovel cadastrado',
+                    'username' => $username['username'],
                 ];
                 return $msg;
             }

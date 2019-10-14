@@ -6,6 +6,19 @@ class User extends Main{
         $this->conn = $db->_connect();
     }
 
+    public function getName(){
+        try {
+            $id = $_POST['id'];
+            if( !$this->getNameById($id) ){
+                return false;
+            }else{
+                return $this->getNameById($id);
+            }
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+    }
+
     public function verifyUser(){
         try {
             $username = $_POST['username'];
@@ -63,7 +76,25 @@ class User extends Main{
                 return false;
             }
         } catch (\Throwable $th) {
-            return $e->getMessage();
+            return $th->getMessage();
+        }
+    }
+
+    /**
+     * Function return name user by id.
+     */
+    private function getNameById($id){
+        try {
+            $sql = "SELECT id_user, username FROM user WHERE id_user = $id";
+            $res = $this->conn->query($sql);
+            if( $res->num_rows > 0){
+                $data = $res->fetch_assoc();
+                return $data;
+            }else{
+                return false;
+            }
+        } catch (\Throwable $th) {
+            return $th->getMessage();
         }
     }
 
