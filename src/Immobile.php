@@ -18,6 +18,26 @@ class Immobile extends Main{
         }        
     }
 
+    public function immobilesUser(){
+        try {
+            $id_ = $_POST['id'];
+            $sql = "SELECT id_, title_ad from immobile WHERE id_user = $id_";
+            $res = $this->conn->query($sql);
+            if($res->num_rows > 0){
+                $all = $res->fetch_all(MYSQLI_ASSOC);
+                return $all;
+            }else{
+                $msg = [
+                    "status" => "success",
+                    "msg" => "Usuário não possui nenhum imovel cadastrado",
+                ];
+                return $msg;
+            }
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+    }
+
     /**
      * Function for add new.
      */
@@ -25,7 +45,7 @@ class Immobile extends Main{
         try {
             $data = $_POST['data'];
             $price = $this->priceSaleByWake($data['sizeHome'], $data['bedrooms'], $data['suites'], $data['wc'], $data['sizeRecreation'], $data['pool'], $data['garagem']);
-            $sql = "INSERT INTO immobile(title_ad, size_m2_home, bedrooms, suites, wc, pool_home, garage, size_m2_recreation, sale_price, id_user, address_home, img_base64 ) VALUES ('{$data['titleAd']}', {$data['sizeHome']}, {$data['bedrooms']}, {$data['suites']}, {$data['wc']},{$data['pool']}, {$data['garagem']}, {$data['sizeRecreation']},$price,1,'{$data['address_h']}','{$data['base64Img']}')";
+            $sql = "INSERT INTO immobile(title_ad, size_m2_home, bedrooms, suites, wc, pool_home, garage, size_m2_recreation, sale_price, id_user, address_home, img_base64 ) VALUES ('{$data['titleAd']}', {$data['sizeHome']}, {$data['bedrooms']}, {$data['suites']}, {$data['wc']},{$data['pool']}, {$data['garagem']}, {$data['sizeRecreation']},$price,{$data['idUser']},'{$data['address_h']}','{$data['base64Img']}')";
             $res = $this->conn->query($sql);
             if( $res == true){
                 return $res;
@@ -34,7 +54,7 @@ class Immobile extends Main{
             } 
 
         } catch (\Throwable $th) {
-             return $e->getMessage();
+             return $th->getMessage();
         } 
     }
     /**
