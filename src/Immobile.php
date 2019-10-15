@@ -51,7 +51,8 @@ class Immobile extends Main{
         try {
             $data = $_POST['data'];
             $price = $this->priceSaleByWake($data['sizeHome'], $data['bedrooms'], $data['suites'], $data['wc'], $data['sizeRecreation'], $data['pool'], $data['garagem']);
-            $sql = "INSERT INTO immobile(title_ad, size_m2_home, bedrooms, suites, wc, pool_home, garage, size_m2_recreation, sale_price, id_user, address_home, img_base64 ) VALUES ('{$data['titleAd']}', {$data['sizeHome']}, {$data['bedrooms']}, {$data['suites']}, {$data['wc']},{$data['pool']}, {$data['garagem']}, {$data['sizeRecreation']},$price,{$data['idUser']},'{$data['address_h']}','{$data['base64Img']}')";
+            $priceF = $this->formatPriceMillion($price);
+            $sql = "INSERT INTO immobile(title_ad, size_m2_home, bedrooms, suites, wc, pool_home, garage, size_m2_recreation, sale_price, id_user, address_home, img_base64 ) VALUES ('{$data['titleAd']}', {$data['sizeHome']}, {$data['bedrooms']}, {$data['suites']}, {$data['wc']},{$data['pool']}, {$data['garagem']}, {$data['sizeRecreation']},$priceF,{$data['idUser']},'{$data['address_h']}','{$data['base64Img']}')";
             $res = $this->conn->query($sql);
             if( $res == true){
                 return $res;
@@ -84,6 +85,18 @@ class Immobile extends Main{
         $calc = ( 231.7489 * $sizeHome ) + ( 198584.2266 * $bedrooms ) + ( -8011.9209 * $suites ) + ( 158646.3995 * $wc ) + ( 4846.0335 * $sizeRecreation ) + ( 146174.6425 * $pool ) + ( 68896.2327 * $garage ) -766580.1618;
         $round = number_format( round($calc), 3,'.','.'); 
         return str_replace('.000', '', $round);        
+    }
+
+    /**
+     * Function format price, ex: 2.100.540 for 2100.540
+     */
+    public function formatPriceMillion($price){
+        if(strlen($price) > 7){
+            $str = substr_replace($price, '', 1, 1);
+            return $str;
+        }else{
+            return $price;
+        }
     }
    
     
