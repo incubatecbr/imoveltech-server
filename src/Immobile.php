@@ -3,6 +3,22 @@ use User;
 
 class Immobile extends Main{
 
+    public function details(){
+        try {
+            $id = $_POST['id'];
+            $sql = "SELECT * FROM immobile WHERE id_ = $id";
+            $res = $this->conn->query($sql);
+            if($res->num_rows > 0 ){
+                return $res->fetch_assoc();
+            }else{
+                return  false;
+            }
+            
+        } catch (\Throwable $th) {
+             return $th->getMessage();
+        } 
+    }
+
     /**
      * Function list all immobile
      */
@@ -15,10 +31,12 @@ class Immobile extends Main{
                 return $all;
             }
         } catch (\Throwable $th) {
-             return $e->getMessage();
+             return $th->getMessage();
         }        
     }
-
+    /**
+     * Function for return all immobiles user.
+     */
     public function immobilesUser(){
         try {
             $id_ = $_POST['id'];
@@ -64,6 +82,23 @@ class Immobile extends Main{
              return $th->getMessage();
         } 
     }
+
+    public function delete(){
+        try {
+            $id = $_POST['id'];
+            $sql = "DELETE FROM immobile WHERE id_ = $id";
+            if ( $this->conn->query($sql) === TRUE ){
+                return true;
+            }else{
+                return false;
+            }
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+    }
+
+
+
     /**
      *  Function return price for immobile with base Linear Regression - Weka.
      * 
