@@ -115,6 +115,11 @@ class Immobile extends Main{
      *   146174.6425 * piscina +
      *   68896.2327 * garagem +
      *   -766580.1618
+     *  
+     *  Por que ?
+     *  R: Com base na analise dos dados (data_base_10_instance.arff) foi gerado essa função onde podemos perceber que todos os atributos são 
+     *  utilizados para a formulação dos pesos na multiplicação, com bases nessas 10 instancias o coeficiente de erro encontra-se em 0,1% sendo
+     *  considerado assim como melhor opção para esse calculo.
      */
     public function priceSaleByWake($sizeHome, $bedrooms, $suites, $wc, $sizeRecreation, $pool, $garage){
         $calc = ( 231.7489 * $sizeHome ) + ( 198584.2266 * $bedrooms ) + ( -8011.9209 * $suites ) + ( 158646.3995 * $wc ) + ( 4846.0335 * $sizeRecreation ) + ( 146174.6425 * $pool ) + ( 68896.2327 * $garage ) -766580.1618;

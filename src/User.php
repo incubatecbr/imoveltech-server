@@ -26,6 +26,7 @@ class User extends Main{
             $sql = "SELECT * FROM user WHERE username = '$username' AND pass = '$userpass' ";
             $res = $this->conn->query($sql);
             if( $res->num_rows > 0){
+                $_SESSION['userLogged'] = true;
                 $data_ = $res->fetch_assoc();
                 $_r = [
                     $data_['id_user'],
@@ -34,6 +35,7 @@ class User extends Main{
                 //return true;
                 return $_r;
             }else{
+                $_SESSION['userLogged'] = false;
                 return false;
             }
         } catch (\Throwable $e) {
@@ -96,6 +98,18 @@ class User extends Main{
         } catch (\Throwable $th) {
             return $th->getMessage();
         }
+    }
+
+    /**
+     * Function for return session user.
+     */
+    private function getSessionUser(){
+        if($_SESSION['userLogged']){
+            $ret = "Usuário logado.";
+        }else{
+            $ret = "Usuário não está logado.";
+        }
+        return $ret;
     }
 
 }

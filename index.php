@@ -15,6 +15,7 @@
         //$action_name = $_POST['action'];//action name
             
         if(class_exists($ctrl_name)){
+            session_start();
             $_controller = new $ctrl_name(); 
             $_response = $_controller->init();
             if (isset($_response)) {
